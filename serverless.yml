@@ -1,0 +1,69 @@
+service: ev-punjaci-martina
+frameworkVersion: "3"
+
+plugins:
+  - serverless-localstack
+
+custom:
+  localstack:
+    stages:
+      - dev
+    host: http://localhost
+    edgePort: 4566
+    autostart: false
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: dev
+  region: us-east-1
+  environment:
+    CHARGERS_TABLE: Chargers
+    ALLOWED_ORIGIN: "http://punjaci-website.s3-website.localhost.localstack.cloud:4566"
+    OCM_URL: "https://api.openchargemap.io/v3/poi"
+    # Kasnije ćemo ovo prebaciti u .env, za sada može ovako:
+    OCM_API_KEY: "PUT_YOUR_OCM_KEY_HERE"
+
+resources:
+  Resources:
+    ChargersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.CHARGERS_TABLE}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: chargerId
+            AttributeType: S
+          - AttributeName: town
+            AttributeType: S
+        KeySchema:
+          - AttributeName: chargerId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: TownIndex
+            KeySchema:
+              - AttributeName: town
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    WebsiteBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: punjaci-website
+        AccessControl: PublicRead
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: error.html
+
+    WebsiteBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref WebsiteBucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal: "*"
+              Action: s3:GetObject
+              Resource: !Join ["", ["arn:aws:s3:::", !Ref WebsiteBucket, "/*"]]
