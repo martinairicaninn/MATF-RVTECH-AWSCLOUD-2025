@@ -3,11 +3,11 @@ services:
     container_name: matf-rvtech-localstack-martina
     image: localstack/localstack:latest
     ports:
-      - "127.0.0.1:4566:4566"
-      - "127.0.0.1:4510-4559:4510-4559"
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+      - "127.0.0.1:4510-4559:4510-4559"  # external services port range
     environment:
+      - SERVICES=lambda,s3,logs,dynamodb,cloudwatch,apigateway,cloudformation,iam,events
       - DEBUG=${DEBUG:-0}
-      - SERVICES=lambda,apigateway,dynamodb,s3,logs,cloudwatch,iam,events,cloudformation
       - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
       - localstack_data:/var/lib/localstack
