@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <title>EV Punjači – Srbija</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; }
+    header {
+      padding: 10px;
+      background: #4f46e5;
+      color: white;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    #map { height: calc(100vh - 50px); }
+    input, button { padding: 6px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <strong>⚡ EV Punjači – Srbija</strong>
+  <input id="town" value="Belgrade" />
+  <button onclick="loadChargers()">Pretraži</button>
+</header>
+
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // 🔴 OVO MENJAŠ POSLE DEPLOY-A
+  const API_ID = "PASTE_API_ID_HERE";
+  const API_BASE = `http://localhost:4566/restapis/${API_ID}/dev/_user_request_`;
+
+  const map = L.map("map").setView([44.0165, 21.0059], 7);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap"
+  }).addTo(map);
+
+  const markers = L.layerGroup().addTo(map);
+
+  async function loadChargers() {
+    const town = document.getElementById("town").value;
+    markers.clearLayers();
+
+    const res = await fetch(`${API_BASE}/chargers/${town}`);
+    const data = await res.json();
+
+    data.chargers.forEach(c => {
+      if (!c.latitude || !c.longitude) return;
+
+      const m = L.marker([c.latitude, c.longitude]).addTo(markers);
+      m.bindPopup(`
+        <b>${c.title || "Punjač"}</b><br/>
+        ${c.addressLine1 || ""}<br/>
+        ${c.town}
+      `);
+    });
+  }
+</script>
+
+</body>
+</html>
