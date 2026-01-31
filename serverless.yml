@@ -21,8 +21,18 @@ provider:
     CHARGERS_TABLE: Chargers
     ALLOWED_ORIGIN: "http://punjaci-website.s3-website.localhost.localstack.cloud:4566"
     OCM_URL: "https://api.openchargemap.io/v3/poi"
-    # Kasnije ćemo ovo prebaciti u .env, za sada može ovako:
     OCM_API_KEY: "PUT_YOUR_OCM_KEY_HERE"
+
+functions:
+  getChargersByTown:
+    handler: lambdas/getChargersByTown.handler
+    events:
+      - http:
+          path: chargers/{town}
+          method: get
+      - http:
+          path: chargers/{town}
+          method: options
 
 resources:
   Resources:
