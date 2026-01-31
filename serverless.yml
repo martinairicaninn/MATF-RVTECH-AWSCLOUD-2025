@@ -4,32 +4,24 @@ frameworkVersion: "3"
 plugins:
   - serverless-localstack
 
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+
 custom:
   localstack:
     stages:
       - dev
     host: http://localhost
     edgePort: 4566
-    autostart: false
-
-provider:
-  name: aws
-  runtime: nodejs18.x
-  stage: dev
-  region: us-east-1
-  environment:
-    CHARGERS_TABLE: Chargers
-    ALLOWED_ORIGIN: "http://punjaci-website.s3-website.localhost.localstack.cloud:4566"
-    OCM_URL: "https://api.openchargemap.io/v3/poi"
-    # Kasnije ćemo ovo prebaciti u .env, za sada može ovako:
-    OCM_API_KEY: "PUT_YOUR_OCM_KEY_HERE"
 
 resources:
   Resources:
     ChargersTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.CHARGERS_TABLE}
+        TableName: Chargers
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: chargerId
