@@ -48,13 +48,13 @@
   async function loadChargers() {
     let town = document.getElementById("town").value.trim();
 
-    // Ako je prazno, nemoj da puca
+   
     if (!town) {
       alert("Unesi grad (npr. Beograd).");
       return;
     }
 
-    // Normalizacija (opciono): "  novi sad " -> "Novi Sad"
+    
     town = town
       .toLowerCase()
       .split(" ")
@@ -114,9 +114,7 @@
 
   document.getElementById("btn").addEventListener("click", loadChargers);
 
-  // (opciono) automatski učitaj na startu ako hoćeš:
-  // document.getElementById("town").value = "Beograd";
-  // loadChargers();
+  
 </script>
 
 
