@@ -1,0 +1,82 @@
+[
+  {
+    "chargerId": "RS-001",
+    "town": "Beograd",
+    "title": "EV Charger Slavija",
+    "addressLine1": "Slavija Square",
+    "postcode": "11000",
+    "latitude": 44.802416,
+    "longitude": 20.465601,
+    "numberOfPoints": 2
+  },
+  {
+    "chargerId": "RS-002",
+    "town": "Beograd",
+    "title": "EV Charger Ada Mall",
+    "addressLine1": "Radnička 27",
+    "postcode": "11000",
+    "latitude": 44.781536,
+    "longitude": 20.416983,
+    "numberOfPoints": 4
+  },
+  {
+    "chargerId": "RS-003",
+    "town": "Novi Sad",
+    "title": "EV Charger Promenada",
+    "addressLine1": "Bulevar oslobođenja 119",
+    "postcode": "21000",
+    "latitude": 45.245899,
+    "longitude": 19.841315,
+    "numberOfPoints": 3
+  },
+  {
+    "chargerId": "RS-004",
+    "town": "Novi Sad",
+    "title": "EV Charger Liman",
+    "addressLine1": "Narodnog fronta",
+    "postcode": "21000",
+    "latitude": 45.239637,
+    "longitude": 19.830521,
+    "numberOfPoints": 2
+  },
+  {
+    "chargerId": "RS-005",
+    "town": "Nis",
+    "title": "EV Charger Delta Planet",
+    "addressLine1": "Bulevar Nemanjića 11",
+    "postcode": "18000",
+    "latitude": 43.312489,
+    "longitude": 21.901115,
+    "numberOfPoints": 4
+  },
+  {
+    "chargerId": "RS-006",
+    "town": "Kragujevac",
+    "title": "EV Charger Big Fashion",
+    "addressLine1": "Kneza Miloša",
+    "postcode": "34000",
+    "latitude": 44.016521,
+    "longitude": 20.911423,
+    "numberOfPoints": 2
+  },
+  {
+    "chargerId": "RS-007",
+    "town": "Cacak",
+    "title": "EV Charger Center",
+    "addressLine1": "Župana Stracimira",
+    "postcode": "32000",
+    "latitude": 43.891941,
+    "longitude": 20.349179,
+    "numberOfPoints": 1
+  },
+  {
+    "chargerId": "RS-008",
+    "town": "Arilje",
+    "title": "EV Charger Arilje",
+    "addressLine1": "Vojvode Stepe 47",
+    "postcode": "31230",
+    "latitude": 43.748505,
+    "longitude": 20.105122,
+    "numberOfPoints": 1
+  }
+]
