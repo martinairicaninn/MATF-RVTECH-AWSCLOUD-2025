@@ -32,7 +32,7 @@ try {
   }
 
   fs.writeFileSync(INDEX_PATH, replaced, "utf8");
-  console.log(`✅ API_ID ažuriran na: ${api.id}`);
+  console.log(`API_ID ažuriran na: ${api.id}`);
 } catch (e) {
   console.error("Greška:", e.message);
   process.exit(1);
