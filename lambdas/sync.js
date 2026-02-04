@@ -1,13 +1,9 @@
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
-const {
-  DynamoDBDocumentClient,
-  BatchWriteCommand,
-  ScanCommand,
-} = require("@aws-sdk/lib-dynamodb");
+const { DynamoDBDocumentClient, BatchWriteCommand } = require("@aws-sdk/lib-dynamodb");
 
 const OCM_API_KEY = process.env.OCM_API_KEY;
-const OCM_URL = process.env.OCM_URL;
-const TABLE_NAME = process.env.CHARGERS_TABLE;
+const OCM_URL = process.env.OCM_URL || "https://api.openchargemap.io/v3/poi";
+const TABLE_NAME = process.env.CHARGERS_TABLE || "Chargers";
 
 const BATCH_SIZE = 25;
 
@@ -21,7 +17,10 @@ const client = new DynamoDBClient({
 });
 const docClient = DynamoDBDocumentClient.from(client);
 
-const ALLOWED_ORIGIN = process.env.ALLOWED_ORIGIN || "*";
+const ALLOWED_ORIGIN =
+  process.env.ALLOWED_ORIGIN ||
+  "http://punjaci-website.s3-website.localhost.localstack.cloud:4566";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": ALLOWED_ORIGIN,
   "Access-Control-Allow-Headers": "Content-Type",
@@ -29,12 +28,32 @@ const corsHeaders = {
 };
 
 function normalizeTown(town, postcode) {
-  if (["Belgrad", "Belgrade", "Beograd"].includes(town)) return "Belgrade";
-  if (postcode && String(postcode).startsWith("11")) return "Belgrade";
-  return town || "Unknown";
+  const t = (town || "").trim();
+
+  
+  if (["Belgrad", "Belgrade", "Beograd"].includes(t)) return "Beograd";
+  if (postcode && String(postcode).startsWith("11")) return "Beograd";
+
+  
+  if (["Nis", "Niš"].includes(t)) return "Niš";
+
+  
+  return t || "Unknown";
+}
+
+
+async function fetchWithTimeout(url, ms = 15000) {
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), ms);
+  try {
+    return await fetch(url, { signal: controller.signal });
+  } finally {
+    clearTimeout(t);
+  }
 }
 
 exports.handler = async (event) => {
+ 
   if (event?.httpMethod === "OPTIONS") {
     return { statusCode: 200, headers: corsHeaders, body: "" };
   }
@@ -45,8 +64,16 @@ exports.handler = async (event) => {
         statusCode: 400,
         headers: corsHeaders,
         body: JSON.stringify({
-          error: "OCM_API_KEY nije podešen. Upisi pravi key u serverless.yml.",
+          error: "OCM_API_KEY nije podešen (ili je placeholder). Proveri serverless.yml.",
         }),
+      };
+    }
+
+    if (!TABLE_NAME) {
+      return {
+        statusCode: 500,
+        headers: corsHeaders,
+        body: JSON.stringify({ error: "CHARGERS_TABLE nije podešen." }),
       };
     }
 
@@ -60,15 +87,19 @@ exports.handler = async (event) => {
     });
 
     const url = `${OCM_URL}?${params.toString()}`;
-    const response = await fetch(url);
+
+    const response = await fetchWithTimeout(url, 20000);
     if (!response.ok) {
-      throw new Error(`OCM fetch failed: ${response.status} ${response.statusText}`);
+      const text = await response.text().catch(() => "");
+      throw new Error(`OCM fetch failed: ${response.status} ${response.statusText} ${text}`.trim());
     }
+
     const chargers = await response.json();
 
+    // ( TTL – radi samo ako ukljucimo TTL na tabeli u serverless.yml
     const ttl = Math.floor(Date.now() / 1000) + 2 * 24 * 60 * 60;
 
-    const items = chargers.map((c) => ({
+    const items = (Array.isArray(chargers) ? chargers : []).map((c) => ({
       chargerId: String(c.ID),
       uuid: c.UUID,
       town: normalizeTown(c.AddressInfo?.Town, c.AddressInfo?.Postcode),
@@ -87,8 +118,14 @@ exports.handler = async (event) => {
       ttl,
     }));
 
+    // Upis u batch-evima
+    let written = 0;
     for (let i = 0; i < items.length; i += BATCH_SIZE) {
       const batch = items.slice(i, i + BATCH_SIZE);
+
+      // preskoci prazno
+      if (batch.length === 0) continue;
+
       await docClient.send(
         new BatchWriteCommand({
           RequestItems: {
@@ -96,34 +133,11 @@ exports.handler = async (event) => {
           },
         })
       );
+
+      written += batch.length;
     }
 
-    const currentIds = new Set(items.map((it) => it.chargerId));
-    const scanResult = await docClient.send(
-      new ScanCommand({
-        TableName: TABLE_NAME,
-        ProjectionExpression: "chargerId",
-      })
-    );
-
-    const staleIds = (scanResult.Items || [])
-      .map((x) => x.chargerId)
-      .filter((id) => !currentIds.has(id));
-
-    let deletedCount = 0;
-    for (let i = 0; i < staleIds.length; i += BATCH_SIZE) {
-      const batch = staleIds.slice(i, i + BATCH_SIZE);
-      await docClient.send(
-        new BatchWriteCommand({
-          RequestItems: {
-            [TABLE_NAME]: batch.map((id) => ({
-              DeleteRequest: { Key: { chargerId: id } },
-            })),
-          },
-        })
-      );
-      deletedCount += batch.length;
-    }
+   
 
     return {
       statusCode: 200,
@@ -131,15 +145,17 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         message: "OCM data synced to DynamoDB",
         count: items.length,
-        deleted: deletedCount,
+        written,
       }),
     };
   } catch (err) {
-    console.error(err);
+    console.error("SYNC ERROR:", err);
     return {
       statusCode: 500,
       headers: corsHeaders,
-      body: JSON.stringify({ error: err.message || "Internal Server Error" }),
+      body: JSON.stringify({
+        error: err?.message || "Internal Server Error",
+      }),
     };
   }
 };
