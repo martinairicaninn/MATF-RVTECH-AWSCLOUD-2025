@@ -40,7 +40,7 @@ exports.handler = async (event) => {
   }
 
   try {
-    if (!OCM_API_KEY || OCM_API_KEY === "PUT_YOUR_OCM_KEY_HERE") {
+    if (!OCM_API_KEY || OCM_API_KEY === "GET_YOUR_OWN_KEY") {
       return {
         statusCode: 400,
         headers: corsHeaders,

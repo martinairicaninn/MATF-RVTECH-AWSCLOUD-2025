@@ -21,7 +21,7 @@ provider:
     CHARGERS_TABLE: Chargers
     ALLOWED_ORIGIN: "http://punjaci-website.s3-website.localhost.localstack.cloud:4566"
     OCM_URL: "https://api.openchargemap.io/v3/poi"
-    OCM_API_KEY: "PUT_YOUR_OCM_KEY_HERE"
+    OCM_API_KEY: "1a821770-a12e-48a0-9390-595f0c33a2f3"
 
 functions:
   getChargersByTown:
@@ -30,9 +30,17 @@ functions:
       - http:
           path: chargers/{town}
           method: get
+          cors: true
+
+  syncOCMdata:
+    handler: lambdas/sync.handler
+    description: Sync chargers from Open Charge Map to DynamoDB
+    events:
       - http:
-          path: chargers/{town}
-          method: options
+          path: sync
+          method: get
+          cors: true
+
 
 resources:
   Resources:
