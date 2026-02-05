@@ -186,7 +186,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/ev-punjaci-martina/dev/1770329332453-2026-02-05T22:08:52.453Z/ev-punjaci-martina.zip"
+                "S3Key": "serverless/ev-punjaci-martina/dev/1770330203648-2026-02-05T22:23:23.648Z/ev-punjaci-martina.zip"
               },
               "Handler": "lambdas/getChargersByTown.handler",
               "Runtime": "nodejs18.x",
@@ -219,7 +219,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/ev-punjaci-martina/dev/1770329332453-2026-02-05T22:08:52.453Z/ev-punjaci-martina.zip"
+                "S3Key": "serverless/ev-punjaci-martina/dev/1770330203648-2026-02-05T22:23:23.648Z/ev-punjaci-martina.zip"
               },
               "Handler": "lambdas/sync.handler",
               "Runtime": "nodejs18.x",
@@ -246,24 +246,24 @@
               "SyncOCMdataLogGroup"
             ]
           },
-          "GetChargersByTownLambdaVersionOQW8Se0e2L2ZYz7QA2ItTnrZbrN6cTG6NK4oLCm8": {
+          "GetChargersByTownLambdaVersionaM3gQHgXXmJJPstU0hEBYYme2Yly2w5f0kxQ0Da4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetChargersByTownLambdaFunction"
               },
-              "CodeSha256": "juVQtKdJisgMPzBG0+G9EHrDOeUHWmuI48g/cRvZGK4="
+              "CodeSha256": "YOW/5mEtQ0TzqXQyH33CKDfv1vEjfpnrf6G+M/uIJFI="
             }
           },
-          "SyncOCMdataLambdaVersionlusbaxZYzszzbwzKmcXOfmascDIOvKoGHRDMCL6g": {
+          "SyncOCMdataLambdaVersionqdeKCyVF0HOPl37MGNbmDStD3uh9ZF1W0wn15fYyuVY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "SyncOCMdataLambdaFunction"
               },
-              "CodeSha256": "juVQtKdJisgMPzBG0+G9EHrDOeUHWmuI48g/cRvZGK4=",
+              "CodeSha256": "YOW/5mEtQ0TzqXQyH33CKDfv1vEjfpnrf6G+M/uIJFI=",
               "Description": "Sync chargers from Open Charge Map to DynamoDB"
             }
           },
@@ -503,7 +503,7 @@
               "SyncOCMdataLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1770329323677": {
+          "ApiGatewayDeployment1770330196380": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -683,7 +683,7 @@
           "GetChargersByTownLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetChargersByTownLambdaVersionOQW8Se0e2L2ZYz7QA2ItTnrZbrN6cTG6NK4oLCm8"
+              "Ref": "GetChargersByTownLambdaVersionaM3gQHgXXmJJPstU0hEBYYme2Yly2w5f0kxQ0Da4"
             },
             "Export": {
               "Name": "sls-ev-punjaci-martina-dev-GetChargersByTownLambdaFunctionQualifiedArn"
@@ -692,7 +692,7 @@
           "SyncOCMdataLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "SyncOCMdataLambdaVersionlusbaxZYzszzbwzKmcXOfmascDIOvKoGHRDMCL6g"
+              "Ref": "SyncOCMdataLambdaVersionqdeKCyVF0HOPl37MGNbmDStD3uh9ZF1W0wn15fYyuVY"
             },
             "Export": {
               "Name": "sls-ev-punjaci-martina-dev-SyncOCMdataLambdaFunctionQualifiedArn"
@@ -859,7 +859,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "GetChargersByTownLambdaVersionOQW8Se0e2L2ZYz7QA2ItTnrZbrN6cTG6NK4oLCm8"
+        "versionLogicalId": "GetChargersByTownLambdaVersionaM3gQHgXXmJJPstU0hEBYYme2Yly2w5f0kxQ0Da4"
       },
       "syncOCMdata": {
         "handler": "lambdas/sync.handler",
@@ -896,7 +896,7 @@
         "timeout": 6,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "SyncOCMdataLambdaVersionlusbaxZYzszzbwzKmcXOfmascDIOvKoGHRDMCL6g"
+        "versionLogicalId": "SyncOCMdataLambdaVersionqdeKCyVF0HOPl37MGNbmDStD3uh9ZF1W0wn15fYyuVY"
       }
     },
     "resources": {
@@ -1008,7 +1008,7 @@
     "artifact": "/home/martina/Desktop/rivian/MATF-RVTECH-AWSCLOUD-2025/project/.serverless/ev-punjaci-martina.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/ev-punjaci-martina/dev/1770329332453-2026-02-05T22:08:52.453Z",
+    "artifactDirectoryName": "serverless/ev-punjaci-martina/dev/1770330203648-2026-02-05T22:23:23.648Z",
     "artifact": "ev-punjaci-martina.zip"
   }
 }
