@@ -168,7 +168,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/ev-punjaci-martina/dev/1770330203648-2026-02-05T22:23:23.648Z/ev-punjaci-martina.zip"
+          "S3Key": "serverless/ev-punjaci-martina/dev/1770330822401-2026-02-05T22:33:42.401Z/ev-punjaci-martina.zip"
         },
         "Handler": "lambdas/getChargersByTown.handler",
         "Runtime": "nodejs18.x",
@@ -201,7 +201,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/ev-punjaci-martina/dev/1770330203648-2026-02-05T22:23:23.648Z/ev-punjaci-martina.zip"
+          "S3Key": "serverless/ev-punjaci-martina/dev/1770330822401-2026-02-05T22:33:42.401Z/ev-punjaci-martina.zip"
         },
         "Handler": "lambdas/sync.handler",
         "Runtime": "nodejs18.x",
@@ -228,24 +228,24 @@
         "SyncOCMdataLogGroup"
       ]
     },
-    "GetChargersByTownLambdaVersionaM3gQHgXXmJJPstU0hEBYYme2Yly2w5f0kxQ0Da4": {
+    "GetChargersByTownLambdaVersion1JRFGF223Ls4RGTaLFKIYwMBeYqJpm9OglW8DCqYLY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetChargersByTownLambdaFunction"
         },
-        "CodeSha256": "YOW/5mEtQ0TzqXQyH33CKDfv1vEjfpnrf6G+M/uIJFI="
+        "CodeSha256": "stocpQuKlVAaO7FCUpoztpokOKyVSEfdMgBGp9QMuI4="
       }
     },
-    "SyncOCMdataLambdaVersionqdeKCyVF0HOPl37MGNbmDStD3uh9ZF1W0wn15fYyuVY": {
+    "SyncOCMdataLambdaVersionxp71kWwax5EwLuIPv23BSQ2DIyf1WJKDTxSbnl5bG4": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "SyncOCMdataLambdaFunction"
         },
-        "CodeSha256": "YOW/5mEtQ0TzqXQyH33CKDfv1vEjfpnrf6G+M/uIJFI=",
+        "CodeSha256": "stocpQuKlVAaO7FCUpoztpokOKyVSEfdMgBGp9QMuI4=",
         "Description": "Sync chargers from Open Charge Map to DynamoDB"
       }
     },
@@ -485,7 +485,7 @@
         "SyncOCMdataLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1770330196380": {
+    "ApiGatewayDeployment1770330814034": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -665,7 +665,7 @@
     "GetChargersByTownLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetChargersByTownLambdaVersionaM3gQHgXXmJJPstU0hEBYYme2Yly2w5f0kxQ0Da4"
+        "Ref": "GetChargersByTownLambdaVersion1JRFGF223Ls4RGTaLFKIYwMBeYqJpm9OglW8DCqYLY"
       },
       "Export": {
         "Name": "sls-ev-punjaci-martina-dev-GetChargersByTownLambdaFunctionQualifiedArn"
@@ -674,7 +674,7 @@
     "SyncOCMdataLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "SyncOCMdataLambdaVersionqdeKCyVF0HOPl37MGNbmDStD3uh9ZF1W0wn15fYyuVY"
+        "Ref": "SyncOCMdataLambdaVersionxp71kWwax5EwLuIPv23BSQ2DIyf1WJKDTxSbnl5bG4"
       },
       "Export": {
         "Name": "sls-ev-punjaci-martina-dev-SyncOCMdataLambdaFunctionQualifiedArn"
