@@ -1,4 +1,4 @@
-# EV Punjači – Srbija  
+# EV Punjaci – Srbija  
 (Open Charge Map + AWS LocalStack)
 
 Ovaj projekat prikazuje **elektricne punjace u Srbiji na interaktivnoj mapi**, koristeci podatke sa **Open Charge Map API-ja**.
@@ -52,7 +52,7 @@ docker compose up -d
 ```
 
 
-Sačekati nekoliko sekundi da se LocalStack podigne.
+Sacekati nekoliko sekundi da se LocalStack podigne.
 
 ### 3. Deploy serverless infrastrukture
 ```bash
@@ -62,7 +62,7 @@ npx sls deploy
 
  Nakon ove komande:
 
-u terminalu će se pojaviti API Gateway ID
+u terminalu ce se pojaviti API Gateway ID
 
 taj ID **rucno** ubaciti u web/index.html
 
